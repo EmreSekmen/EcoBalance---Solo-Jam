@@ -23,10 +23,10 @@ public class SpawnManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        energyText.text = $"Energy: {Energy}";
-        ratCountText.text = $"Rats {GameObject.FindGameObjectsWithTag("Rat").Length}";
-        foxCountText.text = $"Foxes {GameObject.FindGameObjectsWithTag("Fox").Length}";
-        plantsText.text = $" Plants: {GameObject.FindGameObjectsWithTag("Plants").Length}";
+        energyText.text = $" {Energy}";
+        ratCountText.text = $"{GameObject.FindGameObjectsWithTag("Rat").Length}";
+        foxCountText.text = $"{GameObject.FindGameObjectsWithTag("Fox").Length}";
+        plantsText.text = $"{GameObject.FindGameObjectsWithTag("Plants").Length}";
 
 
         EnergySystem();
