@@ -1,4 +1,6 @@
+using Unity.VisualScripting.Antlr3.Runtime.Misc;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class ReProduction : MonoBehaviour
 {
@@ -8,6 +10,7 @@ public class ReProduction : MonoBehaviour
     public float ReProductiontimer;
     private int foodEaten;
     private SpawnManager spawnManager;
+    
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -35,22 +38,71 @@ public class ReProduction : MonoBehaviour
 
     public void ReProduce()
     {
+        Debug.Log("ReProduce fonksiyonuna girildi");
 
-        Vector3 spawnPos = new Vector3(Random.Range(-4.50f, 4.50f), 0, Random.Range(-2.32f, 2.32f));
-        Instantiate(stats.babyPrefab, spawnPos, Quaternion.identity);
-        
-        
+        Vector3 randomOffset = new Vector3(
+         Random.Range(-0.5f, 0.5f),
+         0f,
+         Random.Range(-0.5f, 0.5f)
+     );
+
+
+        Vector3 desiredPosition = transform.position + randomOffset;
+
+
+
+
+        if (NavMesh.SamplePosition(
+            desiredPosition,
+            out NavMeshHit navHit,
+            2f,
+            NavMesh.AllAreas))
+        {
+            Instantiate(
+                stats.babyPrefab,
+                navHit.position,
+                Quaternion.identity
+            );
+
+            Debug.Log($"{gameObject.name} reproduced.");
+        }
+        else
+        {
+            Debug.LogWarning("Yavru için NavMesh noktası bulunamadı.");
+        }
+
+
     }
+
+
+    
+
 
     public void onFoodEaten()
     {
+
+        Debug.Log("onFoodEaten çalıştı");
+
+        if (stats == null)
+        {
+            Debug.LogError("ReProduction içindeki Stats boş!");
+            return;
+        }
+
+        int requiredFood = Mathf.CeilToInt(stats.foodNeedForReproduction * DisastersManager.reproductionFoodMultiplier);
+
+        Debug.Log($"Food: {foodEaten}/{requiredFood}");
+
         foodEaten++;
 
         Debug.Log(gameObject.name + " foodEaten: " + foodEaten);
 
 
-        if (foodEaten >= stats.foodNeedForReproduction)
+        if (foodEaten >= requiredFood)
         {
+            Debug.Log("Üreme başlıyor");
+
+
             ReProduce();
             foodEaten = 0;
         }

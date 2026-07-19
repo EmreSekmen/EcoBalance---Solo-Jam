@@ -16,5 +16,7 @@ MonoBehaviour:
   hungerDrainRate: 1
   foodValue: 5
   moveSpeed: 3
-  ReProduceTime: 10
-  babyPrefab: {fileID: 341412711114214373, guid: 80e1f8f1cf2538c4db7143bcef72f884, type: 3}
+  ReProduceTime: 5
+  babyPrefab: {fileID: 1522274877337415137, guid: 69ab4b601817b69469174dc001aa32d8, type: 3}
+  foodNeedForReproduction: 2
+  animalType: 0

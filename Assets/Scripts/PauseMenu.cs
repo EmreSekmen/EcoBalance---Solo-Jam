@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 
 public class PauseMenu : MonoBehaviour
@@ -15,20 +16,41 @@ public class PauseMenu : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Escape))
+        if (Keyboard.current != null &&
+          Keyboard.current.escapeKey.wasPressedThisFrame)
         {
-            if (isPaused)
-            {
-                ResumeGame();
-            }
-            else
-            {
-                PauseGame();
-            }
+            HandleEscape();
+        }
+
+
+
+
+
+       
+    }
+
+    private void HandleEscape()
+    {
+        if (settingsPanel.activeSelf)
+        {
+            BackToPauseMenu();
+            return;
+        }
+
+        if (isPaused)
+        {
+            ResumeGame();
+        }
+        else
+        {
+            PauseGame();
         }
     }
 
-   public void PauseGame()
+
+
+
+    public void PauseGame()
     {
         pauseMenuPanel.SetActive(true);
         Time.timeScale = 0;
